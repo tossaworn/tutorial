@@ -1,0 +1,70 @@
+ระบบเก็บสินทรัพย์
+
+table
+  inventory
+    id
+    sn
+    name
+    detail
+    department
+
+api
+  post localhost:5000/inventory/query
+    response
+    [
+      {
+        "id":"1",
+        "sn":"222333aaa",
+        "type":"จอ",
+        "detail":"อยู่ในห้อง server",
+        "departrment":"ขลกน.2"
+      },
+      {
+        "id":"2",
+        "sn":"aaa123456",
+        "type":"keyboard",
+        "detail":"อยู่ในห้องใหญ่",
+        "departrment":"ขลกน.2"
+      },
+    ]
+
+  post localhost:5000/inventory/add
+    request
+    {
+      "sn":"222333aaa",
+      "type":"จอ",
+      "detail":"อยู่ในห้อง server",
+      "departrment":"ขลกน.2"
+    }
+
+    response
+    {
+      "success":true,
+    }
+
+
+  post localhost:5000/inventory/update
+    request
+    {
+      "id": 2
+      "sn":"222333aaa",
+      "type":"จอ",
+      "detail":"อยู่ในห้อง server",
+      "departrment":"ขลกน.2"
+    }
+
+    response
+    {
+      "success":true,
+    }
+
+  post localhost:5000/inventory/delete
+    request
+    {
+      "id": 2
+    }
+
+    response
+    {
+      "success":true,
+    }
