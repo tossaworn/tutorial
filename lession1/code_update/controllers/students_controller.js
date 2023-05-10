@@ -17,7 +17,7 @@ const create = async (reqBody, res) => {
         const db = await connectMongoDB();
         result = db.collection('students').insertOne({ name: reqBody.name, age: reqBody.age });
 
-        return res.status(200).send(result);
+        return res.status(200).send({ message: 'successful.' });
     }
     catch (err) {
         return res.status(500).send({ message: err.message });

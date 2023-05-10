@@ -1,0 +1,14 @@
+table_name :  inventory
+
+
+fields
+  id
+  sn
+  department
+  detail
+  
+
+read post url : http://localhost:3000/inventory/read
+create post url : http://localhost:3000/inventory/create
+update post url : http://localhost:3000/inventory/update
+delete post url : http://localhost:3000/inventory/del

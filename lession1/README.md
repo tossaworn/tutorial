@@ -35,7 +35,7 @@
     post url : http://localhost:3000/students/update
     data : {"id":"","name":"","age":0}
 [ ] ใช้ postman/thunder สร้าง url delete
-    post url : http://localhost:3000/students/delete
+    post url : http://localhost:3000/students/del
     data : {"id":""}
 
 
