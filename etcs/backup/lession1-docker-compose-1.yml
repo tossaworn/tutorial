@@ -1,0 +1,42 @@
+version: '3.9'
+
+services:
+  mysql:
+    image: mysql:8.0.33 # 2023-05-02
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456789
+      MYSQL_DATABASE: tutorial
+      MYSQL_USER: tutorial
+      MYSQL_PASSWORD: 123456789
+    ports:
+      - 3306:3306
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:5.2.1 # 2023-05-02
+    container_name: pma
+    restart: always
+    depends_on:
+      - mysql
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: tutorial # same as MYSQL_USER
+      PMA_PASSWORD: 123456789 # same as MYSQL_PASSWORD
+      PMA_PORT: 3306
+    ports:
+      - 8080:80
+
+  nodejs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    environment:
+      - NODE_ENV=development
+volumes:
+  node_modules:

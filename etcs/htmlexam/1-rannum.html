@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale " />
+
+    <title>แบบฝึกหัด</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <div class="card">
+        <center>
+            <br /><br />
+            <button id="rannum">สุ่มเลข 0-9 จำนวน 1000 ครั้ง</button>
+            <button id="clear">เคลียร์</button> <br /><br /><br />
+            <table id="tableShow">
+                <tr>
+                    <td>
+                        #
+                    </td>
+                    <td>
+                        เลขสุ่ม
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        ยังไม่ได้สุ่ม
+                    </td>
+                </tr>
+            </table>
+        </center>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        $("#rannum").click(function () {
+            $("#tableShow").html("");
+            $("#tableShow").append("<tr><td>#</td><td>เลขสุ่ม</td></tr>");
+            for (let i = 1; i <= 1000; i++) {
+                $("#tableShow").append(`<tr><td>${i}</td><td>${Math.floor(Math.random() * 10)}</td></tr>`);
+            }
+        });
+        $("#clear").click(function () {
+            $("#tableShow").html("<tr><td>#</td><td>เลขสุ่ม</td></tr><tr><td colspan='2'>ยังไม่ได้สุ่ม</td></tr>");
+        });
+    </script>
+</body>
+
+</html>

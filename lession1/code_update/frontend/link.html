@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>ลิงค์</title>
+    <style></style>
+</head>
+
+<body>
+    <button id="btnCreate">Create</button><br>
+    <span id="ctnData"></span>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var postArr = {};
+            var dataRsp;
+
+            function postServer(cmd, url, req) {
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    timeout: 5000,
+                    data: req,
+                    success: function (data) {
+                        if (cmd == "read") {
+                            dataRsp = data.data;
+                            displayData();
+                        }
+                        else {
+                            postServer("read", "http://10.225.15.34/smc2/public/api/link/search", {});
+                        }
+                    },
+                    error: function (xhr, textStatus, errorThrown) { }
+                });
+            }
+
+            function displayData() {
+                var i;
+                var txtWrite;
+
+                txtWrite = "<table>";
+                txtWrite += "   <tr><td>Name</td><td>Detail</td><td>Edit</td></tr>";
+                for (i = 0; i < dataRsp.length; i++) {
+                    txtWrite += "<tr txtId = '" + dataRsp[i].id + "'>";
+                    txtWrite += "   <td class = 'rowSiteName'><input class = 'inpSiteName' value = '" + dataRsp[i].site_name + "'></td>";
+                    txtWrite += "   <td class = 'rowUrl'><input class = 'inpUrl' value = '" + dataRsp[i].url + "'></td>";
+                    txtWrite += "   <td class = 'rowDetail'><input class = 'inpDetail' value = '" + dataRsp[i].detail + "'></td>";
+                    txtWrite += "   <td><button class = 'btnUpdate'>update</button><button class = 'btnDelete'>delete</button></td>";
+                    txtWrite += "</tr>";
+                }
+                txtWrite += "</table>";
+                $("#ctnData").html(txtWrite);
+            }
+
+            $("#btnCreate").click(function (e) {
+                const req = {
+                    site_name: "new",
+                    url: "new.com",
+                    detail: "new"
+                }
+                postServer("create", "http://10.225.15.34/smc2/public/api/link/add", req);
+            });
+
+            $("body").on("click", ".btnUpdate", function () {
+                const req = {
+                    id: $(this).parent().parent().attr("txtId"),
+                    site_name: $(this).parent().parent().children(".rowSiteName").children(".inpSiteName").val(),
+                    url: $(this).parent().parent().children(".rowUrl").children(".inpUrl").val(),
+                    detail: $(this).parent().parent().children(".rowDetail").children(".inpDetail").val()
+                }
+                postServer("update", "http://10.225.15.34/smc2/public/api/link/update", req);
+            });
+
+            $("body").on("click", ".btnDelete", function () {
+                postServer("delete", "http://10.225.15.34/smc2/public/api/link/delete", { id: $(this).parent().parent().attr("txtId") })
+            });
+
+            postServer("read", "http://10.225.15.34/smc2/public/api/link/search", {});
+        });
+    </script>
+</body>
+
+</html>

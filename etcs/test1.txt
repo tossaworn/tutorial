@@ -68,3 +68,29 @@ api
     {
       "success":true,
     }
+
+
+
+
+
+--------------------------------------------
+Link api
+
+query
+type : post
+url : http://10.225.15.34/smc2/public/api/link/search
+
+add
+type : post
+url : http://10.225.15.34/smc2/public/api/link/add
+data : site_name, url, detail
+
+update
+type : post
+url : http://10.225.15.34/smc2/public/api/link/update
+data : id, site_name, url, detail
+
+delete
+type : post
+url : http://10.225.15.34/smc2/public/api/link/delete
+data : id
