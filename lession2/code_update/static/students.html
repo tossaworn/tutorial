@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>นักเรียน</title>
+    <style></style>
+</head>
+
+<body>
+    <button id="btnCreate">Create</button><br>
+    <span id="ctnData"></span>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            let dataRsp;
+
+            const postServer = (cmd, url, req) => {
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    timeout: 5000,
+                    data: req,
+                    success: (data) => {
+                        console.log(data);
+                        if (cmd == "read") {
+                            dataRsp = data;
+                            displayData();
+                        }
+                        else {
+                            postServer("read", "http://localhost:8000/students/read", {});
+                        }
+                    },
+                    error: function (xhr, textStatus, errorThrown) { }
+                });
+            }
+
+            const displayData = () => {
+                let txtWrite = `<table>`;
+                txtWrite += `   <tr><td>ชื่อ</td><td>อายุ</td><td>แก้ไข</td></tr>`;
+                for (let i = 0; i < dataRsp.length; i++) {
+                    txtWrite += `<tr txtId = '${dataRsp[i].id}'>`;
+                    txtWrite += `   <td class = 'rowName'><input class = 'inpName' value = '${dataRsp[i].name}'></td>`;
+                    txtWrite += `   <td class = 'rowAge'><input class = 'inpAge' value = '${dataRsp[i].age}'></td>`;
+                    txtWrite += `   <td><button class = 'btnUpdate'>update</button><button class = 'btnDelete'>delete</button></td>`;
+                    txtWrite += `</tr>`;
+                }
+                txtWrite += `</table>`;
+                $("#ctnData").html(txtWrite);
+            }
+
+            $("#btnCreate").click(function (e) {
+                const req = {
+                    name: "ใหม่",
+                    age: 0,
+                }
+                postServer("create", "http://localhost:8000/students/create", req);
+            });
+
+            $("body").on("click", ".btnUpdate", function () {
+                const req = {
+                    id: $(this).parent().parent().attr("txtId"),
+                    name: $(this).parent().parent().children(".rowName").children(".inpName").val(),
+                    age: $(this).parent().parent().children(".rowAge").children(".inpAge").val(),
+                }
+                postServer("update", "http://localhost:8000/students/update", req);
+            });
+
+            $("body").on("click", ".btnDelete", function () {
+                postServer("delete", "http://localhost:8000/students/del", { id: $(this).parent().parent().attr("txtId") })
+            });
+
+            postServer("read", "http://localhost:8000/students/read", {});
+        });
+    </script>
+</body>
+
+</html>

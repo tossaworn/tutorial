@@ -1,0 +1,39 @@
+version: '3.9'
+
+services:
+  mysql:
+    image: mysql:8.0.33
+    container_name: mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456789
+      MYSQL_DATABASE: lession2
+      MYSQL_USER: lession2
+      MYSQL_PASSWORD: 123456789
+    ports:
+      - 3306:3306
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:5.2.1
+    container_name: pma
+    restart: unless-stopped
+    depends_on:
+      - mysql
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: lession2 # same as MYSQL_USER
+      PMA_PASSWORD: 123456789 # same as MYSQL_PASSWORD
+      PMA_PORT: 3306
+    ports:
+      - 8080:80
+
+  django:
+    container_name: django
+    restart: unless-stopped
+    build: .
+    working_dir: /code
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./lession2:/code
+    ports:
+      - 8000:8000
