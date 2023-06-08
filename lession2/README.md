@@ -53,6 +53,7 @@ set python virtual environment และลง django
 [ ] เปิด docker > Containers > lession2 > django > Terminal
 [ ] run : python manage.py makemigrations
 [ ] run : python manage.py migrate
+[ ] ทำการ restart container django
 
 
 [ ] ทดสอบเข้า localhost:8000
